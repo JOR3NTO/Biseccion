@@ -85,19 +85,20 @@ Para compilar la biblioteca, utiliza el siguiente comando: `gcc -c -fPIE libbise
 Regresa a la carpeta principal `biseccion`, crea una nueva subcarpeta `mkdir gestorJNI`, y dentro de `gestorJNI`, crea el archivo `nano JavaJNIGestorApp.java` con el siguiente código:
 
 ```java
-package libbiseccion;
+package gestorJNI;
 
-public class MetodoBiseccion {
+import libbiseccion.JavaBiseccion;
 
+public class JavaJNIGestorApp {
     static {
-        System.loadLibrary("biseccion"); 
+        System.loadLibrary("biseccion");
     }
 
     public native double[][] biseccion(double a, double b, int numIteraciones, int caso);
     public native int iteraciones(double a, double b, int caso, double epsilon);
 
     public static void main(String[] args) {
-        MetodoBiseccion metodo = new MetodoBiseccion();
+        JavaBiseccion metodo = new JavaBiseccion();
 
         double a = 1.0, b = 2.0;
         double epsilon = 1e-6;
@@ -110,7 +111,7 @@ public class MetodoBiseccion {
 
         System.out.println("Iter\t a\t\t b\t\t c\t\t f(c)");
         for (double[] fila : resultados) {
-            System.out.printf("%d\t%f\t%f\t%f\t%f%n", (int) fila[0], fila[1], fila[2], fila[3], fila[4]);
+            System.out.printf("%d\t%f\t%f\t%f\t%f%n", (int) fila[0], fila[1], fila[2], fila[3], fil>
         }
     }
 }
@@ -127,7 +128,26 @@ Al terminar el desarrollo del código, compílalo desde la carpeta principal con
 Al ejecutar el programa, obtendrás una salida similar a:
 
 ```
-El proceso 0 inició su ejecución en 1 y terminó de ejecutarse en 4
-El proceso 1 inició su ejecución en 1 y terminó de ejecutarse en 3
-El proceso 2 inició su ejecución en 2 y terminó de ejecutarse en 5
+Número de iteraciones necesarias: 20
+Iter     a               b               c               f(c)
+1       1.000000        2.000000        1.500000        0.875000
+2       1.000000        1.500000        1.250000        -0.296875
+3       1.250000        1.500000        1.375000        0.224609
+4       1.250000        1.375000        1.312500        -0.051514
+5       1.312500        1.375000        1.343750        0.082611
+6       1.312500        1.343750        1.328125        0.014576
+7       1.312500        1.328125        1.320313        -0.018711
+8       1.320313        1.328125        1.324219        -0.002128
+9       1.324219        1.328125        1.326172        0.006209
+10      1.324219        1.326172        1.325195        0.002037
+11      1.324219        1.325195        1.324707        -0.000047
+12      1.324707        1.325195        1.324951        0.000995
+13      1.324707        1.324951        1.324829        0.000474
+14      1.324707        1.324829        1.324768        0.000214
+15      1.324707        1.324768        1.324738        0.000084
+16      1.324707        1.324738        1.324722        0.000018
+17      1.324707        1.324722        1.324715        -0.000014
+18      1.324715        1.324722        1.324718        0.000002
+19      1.324715        1.324718        1.324717        -0.000006
+20      1.324717        1.324718        1.324718        -0.000002
 ```
